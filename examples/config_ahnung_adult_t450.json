@@ -1,0 +1,50 @@
+{
+    "global_properties": {
+        "num_folds": "5",
+        "allowed_cpus": "2",
+        "max_global_time": "3600",
+        "max_permodel_time": "360",
+        "random_seed": "1000001",
+        "est_list": [
+            {
+                "src_collname": "adult_450",
+                "target_name": "income_class",
+                "is_classification": "true",
+                "is_regression": "false",
+                "allowed_cpus": "2",
+                "max_global_time": "450",
+                "max_permodel_time": "45",
+                "random_seed": "3000003"
+            }
+        ]
+    },
+    "schema_properties": {
+        "attr_type_min_present": "0.8",
+        "attr_type_min_typealign": "0.8",
+        "max_categorical_values": "10"
+    },
+    "model_properties": {
+        "target_category_balancing": "average",
+        "category_max_oversample": "2.0"
+    },
+    "service_properties": {
+        "service_hostname": "localhost",
+        "service_port": "8088"
+    },
+    "connect_uris": {
+        "source_uri": "mongodb://127.0.0.1/UCI-ML?w=majority",
+        "rawdocs_uri": "mongodb://127.0.0.1/rawdocs?w=majority",
+        "metadata_uri": "mongodb://127.0.0.1/metadata?w=majority",
+        "cleaned_uri": "mongodb://127.0.0.1/cleaned?w=majority",
+        "folds_uri": "mongodb://127.0.0.1/folds?w=majority",
+        "results_uri": "mongodb://127.0.0.1/results?w=majority"
+    },
+    "connect_uris_srv": {
+        "source_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/UCI-ML?authSource=admin&w=majority",
+        "rawdocs_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/rawdocs?authSource=admin&w=majority",
+        "metadata_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/metadata?authSource=admin&w=majority",
+        "cleaned_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/cleaned?authSource=admin&w=majority",
+        "folds_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/folds?authSource=admin&w=majority",
+        "results_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/results?authSource=admin&w=majority"
+    }
+}

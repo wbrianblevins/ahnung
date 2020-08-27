@@ -1,0 +1,56 @@
+{
+    "global_properties": {
+        "num_folds": "5",
+        "random_seed": "1000001",
+        "allowed_cpus": "1",
+        "max_global_time": "360",
+        "max_permodel_time": "36",
+        "est_list": [
+            {
+                "src_collname": "iris",
+                "target_name": "class",
+                "is_classification": "true",
+                "is_regression": "false",
+                "allowed_cpus": "2",
+                "max_global_time": "240",
+                "max_permodel_time": "24",
+                "random_seed": "3000003"
+            },
+            {
+                "src_collname": "wine",
+                "target_name": "class",
+                "is_classification": "true",
+                "is_regression": "false",
+                "allowed_cpus": "2",
+                "max_global_time": "240",
+                "max_permodel_time": "24",
+                "random_seed": "5000005"
+            }
+        ]
+    },
+    "schema_properties": {
+        "attr_type_min_present": "0.8",
+        "attr_type_min_typealign": "0.8",
+        "max_categorical_values": "20"
+    },
+    "model_properties": {
+        "target_category_balancing": "none",
+        "category_max_oversample": "2.0"
+    },
+    "service_properties": {
+        "service_hostname": "localhost",
+        "service_port": "8088"
+    },
+    "connect_uris_hostnames": {
+        "source_uri": "mongodb://usercredsplaceholder@wbbdata-shard-00-01.wipjb.mongodb.net:27017,wbbdata-shard-00-00.wipjb.mongodb.net:27017,wbbdata-shard-00-02.wipjb.mongodb.net:27017/UCI-ML?ssl=true&authSource=admin&replicaSet=wbbData-shard-0&w=majority",
+        "rawdocs_uri": "mongodb://usercredsplaceholder@wbbdata-shard-00-01.wipjb.mongodb.net:27017,wbbdata-shard-00-00.wipjb.mongodb.net:27017,wbbdata-shard-00-02.wipjb.mongodb.net:27017/rawdocs?ssl=true&authSource=admin&replicaSet=wbbData-shard-0&w=majority",
+        "metadata_uri": "mongodb://usercredsplaceholder@wbbdata-shard-00-01.wipjb.mongodb.net:27017,wbbdata-shard-00-00.wipjb.mongodb.net:27017,wbbdata-shard-00-02.wipjb.mongodb.net:27017/metadata?ssl=true&authSource=admin&replicaSet=wbbData-shard-0&w=majority",
+        "cleaned_uri": "mongodb://usercredsplaceholder@wbbdata-shard-00-01.wipjb.mongodb.net:27017,wbbdata-shard-00-00.wipjb.mongodb.net:27017,wbbdata-shard-00-02.wipjb.mongodb.net:27017/cleaned?ssl=true&authSource=admin&replicaSet=wbbData-shard-0&w=majority"
+    },
+    "connect_uris": {
+        "source_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/UCI-ML?authSource=admin&w=majority",
+        "rawdocs_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/rawdocs?authSource=admin&w=majority",
+        "metadata_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/metadata?authSource=admin&w=majority",
+        "cleaned_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/cleaned?authSource=admin&w=majority"
+    }
+}
