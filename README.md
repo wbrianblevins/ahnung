@@ -164,8 +164,8 @@ This subdocument contains four MongoDB connection strings for accessing the Mong
 
 You can find an example of the charts, statistics and ensemble construction results in the links below.  Note that the GitHub project is not running the prediction stage of Ahnung.  The prediction URLs will not work until you install and run Ahnung on your own datasets.
 
-* [Ahnung Results on UCI Wine dataset](./examples/wine/metadata_wine_Dataset Analysis in Ahnung.html)
-* [Ahnung Results on UCI Iris dataset](./examples/iris/metadata_iris_Dataset Analysis in Ahnung.html)
+* [Ahnung Results on UCI Wine dataset](examples/wine)
+* [Ahnung Results on UCI Iris dataset](examples/iris)
 
 
 ### Sample JSON Configuration

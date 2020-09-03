@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title>iris Dataset Analysis in Ahnung</title>
+        <style>
+            body { font-family: Arial, Helvetica, sans-serif; }
+        </style>
+    </head>
+    <body>
+        <h2>iris Estimator Performance on Held Out Data</h2>
+            <table width="100%" border="1">
+                     <colgroup><col style="width:25%">
+                     <col style="width:25%">
+                     <col style="width:25%">
+                     <col style="width:25%">
+            </colgroup><thead><tr><th>Label</th><th>ROC AUC</th><th>Precision</th><th>Recall</th></tr></thead><tbody><tr><td>Iris-setosa</td><td>1.0</td><td>1.0</td><td>1.0</td></tr><tr><td>Iris-versicolor</td><td>1.0</td><td>1.0</td><td>1.0</td></tr><tr><td>Iris-virginica</td><td>1.0</td><td>1.0</td><td>1.0</td></tr></tbody>
+            </table>
+            <p>Perfect score is 1.0 for all values.  See <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html">sklearn.metrics.roc_auc_score</a>, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html">sklearn.metrics.precision_score</a> and <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html">sklearn.metrics.recall_score</a>.</p>
+        <h2>iris Estimator Construction</h2>
+            <pre>            auto-sklearn results:
+  Dataset name: iris
+  Metric: accuracy
+  Best validation score: 0.975000
+  Number of target algorithm runs: 50
+  Number of successful target algorithm runs: 44
+  Number of crashed target algorithm runs: 5
+  Number of target algorithms that exceeded the time limit: 1
+  Number of target algorithms that exceeded the memory limit: 0
+
+            </pre>
+        <h2>iris Estimator Ahnung Resources</h2>
+            <table width="100%" border="1">
+                     <colgroup><col style="width:10%">
+                     <col style="width:30%">
+                     <col style="width:60%">
+            </colgroup><thead><tr><th>Name</th><th>URL</th><th>Description</th></tr></thead><tbody><tr><td>Prediction</td><td><a href="http://localhost:8088/predict/iris">http://localhost:8088/predict/iris</a></td><td><pre>curl -d '{"sepal_length": 5.8, \
+	"sepal_width": 3.0, \
+	"petal_length": 4.35, \
+	"petal_width": 1.3 }' -H "Content-Type: application/json" -X POST http://localhost:8088/predict/iris</pre></td></tr><tr><td>PipelineProfiler</td><td><a href="./pipelineprofiler_iris_Ensemble Components.html">http://localhost:8088/pipelineprofiler/iris</a></td><td><a href="https://towardsdatascience.com/exploring-auto-sklearn-models-with-pipelineprofiler-5b2c54136044">PipelineProfiler Blog Post</a></td></tr><tr><td>Confusion Matrix: True vs Predicted</td><td><a href="./confusion_iris_Confusion Matrix.html">http://localhost:8088/confusion/iris</a></td><td><a href="https://scikit-learn.org/stable/modules/model_evaluation.html#confusion-matrix">Confusion Matrix Description</a></td></tr><tr><td>ROC Curve Charts</td><td><a href="./roc_iris_ROC Curve Charts.html">http://localhost:8088/roc/iris</a></td><td><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve">ROC Curve Description</a></td></tr><tr><td>Feature Importance via Permutation</td><td><a href="./permimportance_iris_Feature Importance.html">http://localhost:8088/permimportance/iris</a></td><td><a href="https://scikit-learn.org/stable/modules/generated/sklearn.inspection.permutation_importance.html#sklearn.inspection.permutation_importance">Permutation Importance Description</a></td></tr></tbody>
+            </table>
+        <h2>Ahnung Selected Attributes/Features</h2>
+            <table width="100%" border="1">
+                     <colgroup><col style="width:40%">
+                     <col style="width:30%">
+                     <col style="width:40%">
+            </colgroup><thead><tr><th>Name</th><th>Type</th><th>Sense</th></tr></thead><tbody><tr><td>sepal_length</td><td>float</td><td>Numerical</td></tr><tr><td>sepal_width</td><td>float</td><td>Numerical</td></tr><tr><td>petal_length</td><td>float</td><td>Numerical</td></tr><tr><td>petal_width</td><td>float</td><td>Numerical</td></tr></tbody>
+            </table>
+        <h2>Ahnung Rejected Attributes/Features</h2>
+            <table width="100%" border="1">
+                     <colgroup><col style="width:30%">
+                     <col style="width:10%">
+                     <col style="width:10%">
+                     <col style="width:20%">
+                     <col style="width:30%">
+            </colgroup><thead><tr><th>Name</th><th>Present</th><th>Distinct</th><th>Type(s)</th><th>Reject Reason</th></tr></thead><tbody><tr><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr></tbody>
+            </table>
+    
+
+</body></html>
