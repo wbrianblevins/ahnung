@@ -1,7 +1,11 @@
 ﻿# ahnung
 Automated Machine Learning Pipeline for MongoDB Collections, written in Python and leveraging AutoSKLearn and Flask.
 
-
+- [Requirements](#requirements)
+- [Install](#install)
+- [Usage](#usage)
+- [Examples](#examples)
+- [References](#references)
 
 ## Intro
 
@@ -35,6 +39,7 @@ The `predict` stage provides a REST interface to predict the `target` attribute 
 - Feature Importance via Permutation
 
 
+<a name="requirements"></a>
 ## Requirements
 
 Many of the requirements for using Ahnung stem from the [system requirements of AutoSKLearn](https://automl.github.io/auto-sklearn/master/installation.html#system-requirements).  Additionally, configuration of the Python environment is most easily managed by Anaconda, so it must also be installed.
@@ -47,6 +52,7 @@ Many of the requirements for using Ahnung stem from the [system requirements of 
 
 For what its worth, all of my usage and testing has been on Ubuntu so far.
 
+<a name="install"></a>
 ## Install
 
 First, checkout or download the Ahnung project from GitHub.  Open a terminal and `cd` into the project.  Run the following Anaconda command to configure the `ahnung_env` Python environment.
@@ -80,7 +86,7 @@ USAGE: ./run_pipeline.py <settings.json> [first_stage [second_stage [...]]]
 ```
 
 
-
+<a name="usage"></a>
 ## Usage
 
 The command line interface to Ahunung is encapsulated in `run_pipeline.py`.
@@ -98,14 +104,17 @@ The configuration from the settings file is loaded into a Python dictionary.  Ar
 ### global_properties
 
 Contains the list of one or more estimators, global random seed and global default modeling settings.  Each estimator in the `est_list` array is described by various values.
-    - `target_name` - the name of the attribute that Ahnung will learn to predict
-    - `src_collname` - the name of the collection containing the source dataset documents
-    - `is_classification` - boolean indicating the machine learning task is classification
-    - `is_regression` - boolean indicating the machine learning task is regression
-    - `allowed_cpus` - the maximum number of jobs launched by AutoSKLearn
-    - `max_global_time` - controls [time_left_for_this_task](https://automl.github.io/auto-sklearn/master/api.html#api) setting to specify the global time allowed for searching for models and model hyperparameters
-    - `max_permodel_time` - controls [per_run_time_limit](https://automl.github.io/auto-sklearn/master/api.html#api) setting to specify the time allowed for a single call to fit the data by a single machine learning model
-    - `random_seed` - random seed integer value for the machine learning algorithms
+
+| Setting Name | Expected Type | Default | Description |
+| --- | --- | --- | --- |
+| `target_name` | string | N/A | Name of the document attribute (instance feature) that Ahnung will learn to predict |
+| `src_collname` | string | N/A | Name of the collection containing the source dataset documents |
+| `is_classification` | boolean | 'true' | Indicates the machine learning task is classification |
+| `is_regression` | boolean | 'false' | Indicates the machine learning task is regression |
+| `allowed_cpus` | integer | "1" | Maximum number of jobs launched by AutoSKLearn |
+| `max_global_time` | integer | "600" | Controls [time_left_for_this_task](https://automl.github.io/auto-sklearn/master/api.html#api) setting to specify the global time allowed for searching for models and model hyperparameters |
+| `max_permodel_time` | integer | "60" | Controls [per_run_time_limit](https://automl.github.io/auto-sklearn/master/api.html#api) setting to specify the time allowed for a single call to fit the data by a single machine learning model |
+| `random_seed` | integer | "10001" | Random seed integer value for the machine learning algorithms |
 
 
 ### schema_properties
@@ -148,7 +157,7 @@ This subdocument contains four MongoDB connection strings for accessing the Mong
 | `metadata_uri` | string | N/A, required | Specifies the collection used to store metadata or statistics about the dataset, its schema and the AutoSKLearn model search and ensemble build.  Also holds the final AutoSKLearn ensemble and individual component models.  Read+write access is required to this collection.  |
 | `cleaned_uri` | string | N/A, required | Specifies the collection used to store intermediate documents resulting from the `cleanup` stage.  Read+write access is required to this collection.  |
 
-
+<a name="examples"></a>
 ## Examples
 
 ### Sample Results
@@ -217,7 +226,7 @@ The following JSON configuration file contains settings for Ahnung to learn a ca
 ```
 
 
-
+<a name="references"></a>
 ## References
 
 Ahnung leans heavily on a large number of Python based projects, including the following.
