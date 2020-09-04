@@ -1,0 +1,76 @@
+---
+title: "wine Dataset Analysis in Ahnung"
+description: "Results from an Ahnung automated machine learning pipeline against the wine dataset."
+keywords: ""
+author: wbrianblevins
+---
+
+
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title>wine Dataset Analysis in Ahnung</title>
+        <style>
+            body { font-family: Arial, Helvetica, sans-serif; }
+        </style>
+    </head>
+    <body>
+        <h2>wine Estimator Performance on Held Out Data</h2>
+            <table width="100%" border="1">
+                     <colgroup><col style="width:25%">
+                     <col style="width:25%">
+                     <col style="width:25%">
+                     <col style="width:25%">
+            </colgroup><thead><tr><th>Label</th><th>ROC AUC</th><th>Precision</th><th>Recall</th></tr></thead><tbody><tr><td>1</td><td>1.0</td><td>1.0</td><td>1.0</td></tr><tr><td>2</td><td>1.0</td><td>0.9285714285714286</td><td>1.0</td></tr><tr><td>3</td><td>1.0</td><td>1.0</td><td>0.9090909090909091</td></tr></tbody>
+            </table>
+            <p>Perfect score is 1.0 for all values.  See <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html">sklearn.metrics.roc_auc_score</a>, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html">sklearn.metrics.precision_score</a> and <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html">sklearn.metrics.recall_score</a>.</p>
+        <h2>wine Estimator Construction</h2>
+            <pre>            auto-sklearn results:
+  Dataset name: wine
+  Metric: accuracy
+  Best validation score: 0.999753
+  Number of target algorithm runs: 51
+  Number of successful target algorithm runs: 51
+  Number of crashed target algorithm runs: 0
+  Number of target algorithms that exceeded the time limit: 0
+  Number of target algorithms that exceeded the memory limit: 0
+
+            </pre>
+        <h2>wine Estimator Ahnung Resources</h2>
+            <table width="100%" border="1">
+                     <colgroup><col style="width:10%">
+                     <col style="width:30%">
+                     <col style="width:60%">
+            </colgroup><thead><tr><th>Name</th><th>URL</th><th>Description</th></tr></thead><tbody><tr><td>Prediction</td><td><a href="http://localhost:8088/predict/wine">http://localhost:8088/predict/wine</a></td><td><pre>curl -d '{"alcohol": 13.05, \
+	"malic_acid": 1.8650000000000002, \
+	"ash": 2.36, \
+	"alcalinity_ash": 19.5, \
+	"magnesium": 98.0, \
+	"total_phenols": 2.355, \
+	"flavanoids": 2.135, \
+	"nf_phenols": 0.34, \
+	"proanthocyanins": 1.5550000000000002, \
+	"color_intensity": 4.6899999999999995, \
+	"hue": 0.965, \
+	"od_ratio": 2.78, \
+	"proline": 673.5 }' -H "Content-Type: application/json" -X POST http://localhost:8088/predict/wine</pre></td></tr><tr><td>PipelineProfiler</td><td><a href="./pipelineprofiler_wine_Ensemble Components.html">http://localhost:8088/pipelineprofiler/wine</a></td><td><a href="https://towardsdatascience.com/exploring-auto-sklearn-models-with-pipelineprofiler-5b2c54136044">PipelineProfiler Blog Post</a></td></tr><tr><td>Confusion Matrix: True vs Predicted</td><td><a href="./confusion_wine_Confusion Matrix.html">http://localhost:8088/confusion/wine</a></td><td><a href="https://scikit-learn.org/stable/modules/model_evaluation.html#confusion-matrix">Confusion Matrix Description</a></td></tr><tr><td>ROC Curve Charts</td><td><a href="./roc_wine_ROC Curve Charts.html">http://localhost:8088/roc/wine</a></td><td><a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_curve.html#sklearn.metrics.roc_curve">ROC Curve Description</a></td></tr><tr><td>Feature Importance via Permutation</td><td><a href="permimportance_wine_Feature Importance.html">http://localhost:8088/permimportance/wine</a></td><td><a href="https://scikit-learn.org/stable/modules/generated/sklearn.inspection.permutation_importance.html#sklearn.inspection.permutation_importance">Permutation Importance Description</a></td></tr></tbody>
+            </table>
+        <h2>Ahnung Selected Attributes/Features</h2>
+            <table width="100%" border="1">
+                     <colgroup><col style="width:40%">
+                     <col style="width:30%">
+                     <col style="width:40%">
+            </colgroup><thead><tr><th>Name</th><th>Type</th><th>Sense</th></tr></thead><tbody><tr><td>alcohol</td><td>float</td><td>Numerical</td></tr><tr><td>malic_acid</td><td>float</td><td>Numerical</td></tr><tr><td>ash</td><td>float</td><td>Numerical</td></tr><tr><td>alcalinity_ash</td><td>float</td><td>Numerical</td></tr><tr><td>magnesium</td><td>int</td><td>Numerical</td></tr><tr><td>total_phenols</td><td>float</td><td>Numerical</td></tr><tr><td>flavanoids</td><td>float</td><td>Numerical</td></tr><tr><td>nf_phenols</td><td>float</td><td>Numerical</td></tr><tr><td>proanthocyanins</td><td>float</td><td>Numerical</td></tr><tr><td>color_intensity</td><td>float</td><td>Numerical</td></tr><tr><td>hue</td><td>float</td><td>Numerical</td></tr><tr><td>od_ratio</td><td>float</td><td>Numerical</td></tr><tr><td>proline</td><td>int</td><td>Numerical</td></tr></tbody>
+            </table>
+        <h2>Ahnung Rejected Attributes/Features</h2>
+            <table width="100%" border="1">
+                     <colgroup><col style="width:30%">
+                     <col style="width:10%">
+                     <col style="width:10%">
+                     <col style="width:20%">
+                     <col style="width:30%">
+            </colgroup><thead><tr><th>Name</th><th>Present</th><th>Distinct</th><th>Type(s)</th><th>Reject Reason</th></tr></thead><tbody><tr><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td><td>N/A</td></tr></tbody>
+            </table>
+    
+
+</body></html>
