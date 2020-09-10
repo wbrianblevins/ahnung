@@ -44,12 +44,12 @@
         "source_uri": "mongodb://127.0.0.1/UCI-ML?w=majority",
         "rawdocs_uri": "mongodb://127.0.0.1/rawdocs?w=majority",
         "metadata_uri": "mongodb://127.0.0.1/metadata?w=majority",
-        "cleaned_uri": "mongodb://127.0.0.1/cleaned?w=majority",
+        "cleaned_uri": "mongodb://127.0.0.1/cleaned?w=majority"
     },
     "connect_uris_srv": {
         "source_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/UCI-ML?authSource=admin&w=majority",
         "rawdocs_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/rawdocs?authSource=admin&w=majority",
         "metadata_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/metadata?authSource=admin&w=majority",
-        "cleaned_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/cleaned?authSource=admin&w=majority",
+        "cleaned_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/cleaned?authSource=admin&w=majority"
     }
 }

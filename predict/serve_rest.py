@@ -414,7 +414,7 @@ class MetadataEndpoint(flask.views.MethodView):
     #
     #
     #
-    def genPrefromanceAttrTableRows(self):
+    def genPerformanceAttrTableRows(self):
         allStats       = self.vehicle.getAttrStats().copy()
         recallDict     = allStats[type_utils.STATS_RECALL_SCORE]
         precisionDict  = allStats[type_utils.STATS_PRECISION_SCORE]
@@ -463,7 +463,7 @@ class MetadataEndpoint(flask.views.MethodView):
 
         if None != automl:
             titleStr        = self.vehicle.getEstimatorName()
-            perfRows        = self.genPrefromanceAttrTableRows()
+            perfRows        = self.genPerformanceAttrTableRows()
             estStats        = automl.sprint_statistics()
             resRows         = self.genResourceTableRows()
             selRows         = self.genSelectedAttrTableRows()
