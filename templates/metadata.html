@@ -15,7 +15,7 @@
                      <col style="width:25%">
             {{ perfStatistics }}
             </table>
-            <p>Perfect score is 1.0 for all values.  See <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html">sklearn.metrics.roc_auc_score</a>, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html">sklearn.metrics.precision_score</a> and <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html">sklearn.metrics.recall_score</a>.</p>
+            <p>Best performance is 1.0 for all values.  See <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.precision_score.html">precision = tp / (tp + fp)</a>, <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.recall_score.html">recall = tp / (tp + fn)</a> and <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.roc_auc_score.html">roc_auc_score</a>.</p>
         <h2>{{ title }} Estimator Construction</h2>
             <pre>
             {{ estStatistics }}

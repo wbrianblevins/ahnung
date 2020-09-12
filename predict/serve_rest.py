@@ -411,42 +411,71 @@ class MetadataEndpoint(flask.views.MethodView):
         return flask.Markup(result)
 
 
+
     #
     #
     #
-    def genPerformanceAttrTableRows(self):
+    def genPerformanceAttrChart(self):
         allStats       = self.vehicle.getAttrStats().copy()
         recallDict     = allStats[type_utils.STATS_RECALL_SCORE]
         precisionDict  = allStats[type_utils.STATS_PRECISION_SCORE]
         rocaucDict     = allStats[type_utils.STATS_ROCAUC_SCORE]
 
-        result    = ''
-        result   += '<thead>'
-        result   += '<th>Label</th>'
-        result   += '<th>ROC AUC</th>'
-        result   += '<th>Precision</th>'
-        result   += '<th>Recall</th>'
-        result   += '</thead>'
-        result   += '<tbody>'
+        estVehicle = self.vehicle
+        estName = estVehicle.getEstimatorName()
 
-        if len(rocaucDict) > 0:
-            for nLabel in rocaucDict.keys():
-                result   += '<tr>'
-                result   += '<td>' + nLabel + '</td>'
-                result   += '<td>' + str(rocaucDict[nLabel]) + '</td>'
-                result   += '<td>' + str(precisionDict[nLabel]) + '</td>'
-                result   += '<td>' + str(recallDict[nLabel]) + '</td>'
-                result   += '</tr>'
-        else:
-            result   += '<tr>'
-            result   += '<td>N/A</td>'
-            result   += '<td>N/A</td>'
-            result   += '<td>N/A</td>'
-            result   += '<td>N/A</td>'
-            result   += '</tr>'
+        labels = ['Precision', 'Recall', 'ROC AUC']
 
-        result   += '</tbody>'
-        return flask.Markup(result)
+        fig = matplotlib.figure.Figure()
+        fax = fig.subplots()
+        fax.set_title("Ensemble Performance on " + estName)
+
+        # cmd.plot(ax=fax)
+        targets  = precisionDict.keys()
+        tCnt     = len(targets)
+        vals     = []
+        rects    = []
+        xtPos    = numpy.arange(len(labels))  # the label locations
+        bWidth   = 0.8
+        gWidth   = bWidth / tCnt
+        
+        idx = 0
+        for tName in targets:
+            newVals = []
+            newVals.append(precisionDict.get(tName))
+            newVals.append(recallDict.get(tName))
+            newVals.append(rocaucDict.get(tName))
+            vals.append(newVals)
+            newRects = fax.bar(xtPos + gWidth*idx, newVals, gWidth, label=tName)
+            rects.append(newRects)
+            for rect in newRects:
+                height = rect.get_height()
+                fax.annotate('{:03.3f}'.format(height),
+                    xy=(rect.get_x() + rect.get_width() / 2, height),
+                    xytext=(0, 3),  # 3 points vertical offset
+                    textcoords="offset points",
+                    ha='center', va='bottom')
+            idx += 1
+
+        # Add some text for labels, title and custom x-axis tick labels, etc.
+        fax.set_ylabel('Performance Score')
+        fax.set_title('Performance by Target Label')
+        midOffset = ((bWidth / 2) - (gWidth / 2))
+        fax.set_xticks(xtPos + midOffset)
+        fax.set_xticklabels(labels)
+        fax.legend()
+
+        buf = io.BytesIO()
+        fig.savefig(buf, format="svg")
+        # Embed the result in the html output.
+        data = buf.getvalue().decode("utf-8")
+        
+        matplotlib.pyplot.close(fig)
+            
+        return flask.Markup(data)
+
+
+
 
 
     def get(self):
@@ -463,12 +492,12 @@ class MetadataEndpoint(flask.views.MethodView):
 
         if None != automl:
             titleStr        = self.vehicle.getEstimatorName()
-            perfRows        = self.genPerformanceAttrTableRows()
+            perfChart       = self.genPerformanceAttrChart()
             estStats        = automl.sprint_statistics()
             resRows         = self.genResourceTableRows()
             selRows         = self.genSelectedAttrTableRows()
             rejRows         = self.genRejectedAttrTableRows()
-            templateResult  = flask.render_template('metadata.html', title=titleStr, perfStatistics=perfRows, estStatistics=estStats, resourceRows=resRows, selectedAttrRows=selRows, rejectedAttrRows=rejRows)
+            templateResult  = flask.render_template('metadata.html', title=titleStr, perfStatistics=perfChart, estStatistics=estStats, resourceRows=resRows, selectedAttrRows=selRows, rejectedAttrRows=rejRows)
 
         if None != templateResult:
             htmlResult = templateResult
@@ -476,20 +505,6 @@ class MetadataEndpoint(flask.views.MethodView):
         return htmlResult
 
 
-    ## def post(self):
-    ##     return "<HTLML>HTTP method unimplemented.</HTML>""
-
-
-    ## def put(self):
-    ##     return "<HTLML>HTTP method unimplemented.</HTML>""
-
-
-    ## def patch(self):
-    ##     return "<HTLML>HTTP method unimplemented.</HTML>""
-
-
-    ## def delete(self):
-    ##     return "<HTLML>HTTP method unimplemented.</HTML>""
 
 
 
@@ -528,23 +543,6 @@ class PipelineProfilerEndpoint(flask.views.MethodView):
             htmlResult = _plot_pipeline_matrix.make_html(data_dict, id)
 
         return htmlResult
-
-
-    ## def post(self):
-    ##     return '<HTLML>HTTP method unimplemented.</HTML>'
-
-
-    ## def put(self):
-    ##     return '<HTLML>HTTP method unimplemented.</HTML>'
-
-
-    ## def patch(self):
-    ##     return '<HTLML>HTTP method unimplemented.</HTML>'
-
-
-    ## def delete(self):
-    ##     return '<HTLML>HTTP method unimplemented.</HTML>'
-
 
 
 
@@ -682,56 +680,6 @@ class ROCEndpoint(flask.views.MethodView):
             htmlResult = svgPluralChartsHTMLPage(titleStr=thisTitle, svgList=tagList)
 
         return htmlResult
-
-
-# =============================================================================
-# #
-# #
-# #
-# class AttributeVsCategoricalEndpoint(flask.views.MethodView):
-#     """ Endpoint handler for the ROC charts endpoint.
-#     """
-# 
-#     #
-#     #
-#     #
-#     def __init__(self, vehicle):
-# 
-#         self.vehicle = vehicle
-# 
-# 
-#     def get(self):
-# 
-#         estVehicle = self.vehicle
-#         estName = estVehicle.getEstimatorName()
-#         htmlResult = '<HTLML>AutoSKLearn model not defined.</HTML>'
-# 
-#         if estVehicle.getIsRegression():
-#             htmlResult = '<HTLML>AutoSKLearn model is not a classification.</HTML>'
-# 
-#         if estVehicle.getIsClassification():
-# 
-#             tagList     = []
-#             attrSenses  = estVehicle.getAttrSenses()
-#             
-#             for path, sense in attrSenses.items():
-#                 
-#                 if type_utils.SENSE_CATEGORICAL == sense:
-#                     
-#                     targetEncoder  = estVehicle.getAttrTransform(target)
-#                     attrEncoder    = estVehicle.getAttrTransform(target)
-#                     
-#                     targetClasses  = targetEncoder.classes_
-#                     attrClasses    = attrEncoder.classes_
-# 
-#                     counts = numpy.array((len(targetClasses), len(attrClasses)), dtype=numpy.int32)
-#                     
-#                     for nTarget in targetClasses:
-#                         for nAttr in attrClasses:
-#                             counts
-# 
-# 
-# =============================================================================
 
 
 
