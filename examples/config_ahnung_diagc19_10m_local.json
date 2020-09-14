@@ -24,7 +24,7 @@
     },
     "model_properties": {
         "target_category_balancing": "average",
-        "category_max_oversample": "1.5"
+        "category_max_oversample": "2.0"
     },
     "service_properties": {
         "service_hostname": "localhost",
@@ -34,16 +34,12 @@
         "source_uri": "mongodb://127.0.0.1/UCI-ML?w=majority",
         "rawdocs_uri": "mongodb://127.0.0.1/rawdocs?w=majority",
         "metadata_uri": "mongodb://127.0.0.1/metadata?w=majority",
-        "cleaned_uri": "mongodb://127.0.0.1/cleaned?w=majority",
-        "folds_uri": "mongodb://127.0.0.1/folds?w=majority",
-        "results_uri": "mongodb://127.0.0.1/results?w=majority"
+        "cleaned_uri": "mongodb://127.0.0.1/cleaned?w=majority"
     },
     "connect_uris_srv": {
         "source_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/UCI-ML?authSource=admin&w=majority",
         "rawdocs_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/rawdocs?authSource=admin&w=majority",
         "metadata_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/metadata?authSource=admin&w=majority",
-        "cleaned_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/cleaned?authSource=admin&w=majority",
-        "folds_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/folds?authSource=admin&w=majority",
-        "results_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/results?authSource=admin&w=majority"
+        "cleaned_uri": "mongodb+srv://usercredsplaceholder@wbbdata.wipjb.mongodb.net/cleaned?authSource=admin&w=majority"
     }
 }
