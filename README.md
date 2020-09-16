@@ -4,9 +4,8 @@ Automated Machine Learning Pipeline for MongoDB Collections, written in Python a
 - [Requirements](#requirements)
 - [Install](#install)
 - [Usage](#usage)
-- [Examples](#examples)
+- [Examples](#examples) : [Ahnung Video](https://youtu.be/K_PklPgrFss) : [UCI Adult dataset](https://wbrianblevins.github.io/ahnung/examples/adult/index.html)
 - [References](#references)
-- [Introduction to Ahnung Video](https://youtu.be/K_PklPgrFss)
 
 ## Intro
 
@@ -168,8 +167,9 @@ This subdocument contains four MongoDB connection strings for accessing the Mong
 You can find an example of the charts, statistics and ensemble construction results in the links below.  Note that the GitHub project is not running the prediction stage of Ahnung.  The prediction URLs will not work until you install and run Ahnung on your own datasets.
 
 * [Introduction to Ahnung Video](https://youtu.be/K_PklPgrFss)
-* [Ahnung Results on UCI Wine dataset](examples/wine)
-* [Ahnung Results on UCI Iris dataset](examples/iris)
+* [Ahnung Results on UCI Adult dataset](https://wbrianblevins.github.io/ahnung/examples/adult/index.html)
+* [Ahnung Results on UCI Wine dataset](https://wbrianblevins.github.io/ahnung/examples/wine/index.html)
+* [Ahnung Results on UCI Iris dataset](https://wbrianblevins.github.io/ahnung/examples/iris/index.html)
 
 
 ### Sample JSON Configuration

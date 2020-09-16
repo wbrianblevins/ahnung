@@ -3,8 +3,8 @@
         "num_folds": "5",
         "random_seed": "1000001",
         "allowed_cpus": "1",
-        "max_global_time": "360",
-        "max_permodel_time": "36",
+        "max_global_time": "240",
+        "max_permodel_time": "24",
         "est_list": [
             {
                 "src_collname": "iris",
