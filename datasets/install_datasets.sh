@@ -23,8 +23,8 @@ UCIML_DB="UCI-ML"
 REPL_DATA_USER="notmyuser:notmypassword"
 REPL_ATLAS_CLUSTER="wbbdata.wipjb.mongodb.net"
 # REPL_DATA_SRC="mongodb+srv://$REPL_DATA_USER@$REPL_ATLAS_CLUSTER/$UCIML_DB?&authSource=admin&w=majority&wtimeoutMS=5000"
-REPL_DATA_SRC="mongodb+srv://$REPL_DATA_USER@$REPL_ATLAS_CLUSTER/$UCIML_DB?&authSource=admin&w=majority"
-# REPL_DATA_SRC="mongodb://127.0.0.1/$UCIML_DB?&w=majority"
+# REPL_DATA_SRC="mongodb+srv://$REPL_DATA_USER@$REPL_ATLAS_CLUSTER/$UCIML_DB?&authSource=admin&w=majority"
+REPL_DATA_SRC="mongodb://127.0.0.1/$UCIML_DB?&w=majority"
 
 
 convert_iris_csv2json() {
@@ -205,6 +205,84 @@ convert_adult_csv2json() {
 }
 
 
+
+convert_esd2020_csv2json() {
+
+    SRC_CSV="$1"
+    shift
+    OUT_JSON="$1"
+    shift
+
+    F_NAMES=$*
+
+    N01="$1"
+    shift
+    N02="$1"
+    shift
+    N03="$1"
+    shift
+    N04="$1"
+    shift
+    N05="$1"
+    shift
+    N06="$1"
+    shift
+    N07="$1"
+    shift
+    N08="$1"
+    shift
+    N09="$1"
+    shift
+    N10="$1"
+    shift
+    N11="$1"
+    shift
+    N12="$1"
+    shift
+    N13="$1"
+    shift
+    N14="$1"
+    shift
+    N15="$1"
+    shift
+    N16="$1"
+    shift
+    N17="$1"
+    shift
+    
+    # echo $SRC_CSV
+    # echo $OUT_JSON
+    # echo $F_NAMES
+
+
+    while IFS=',' read -r f01 f02 f03 f04 f05 f06 f07 f08 f09 f10 f11 f12 f13 f14 f15 f16 f17
+    do
+        if [ "" != "$f01" -a "Age" != "$f01" ]
+        then
+            $ECHO '{ ' >> "$OUT_JSON"
+            $ECHO '    "'$N01'": '$EJ_INT32_B$f01$EJ_INT32_E',' >> "$OUT_JSON"
+            $ECHO '    "'$N02'": "'$f02'",' >> "$OUT_JSON"
+            $ECHO '    "'$N03'": "'$f03'",' >> "$OUT_JSON"
+            $ECHO '    "'$N04'": "'$f04'",' >> "$OUT_JSON"
+            $ECHO '    "'$N05'": "'$f05'",' >> "$OUT_JSON"
+            $ECHO '    "'$N06'": "'$f06'",' >> "$OUT_JSON"
+            $ECHO '    "'$N07'": "'$f07'",' >> "$OUT_JSON"
+            $ECHO '    "'$N08'": "'$f08'",' >> "$OUT_JSON"
+            $ECHO '    "'$N09'": "'$f09'",' >> "$OUT_JSON"
+            $ECHO '    "'$N10'": "'$f10'",' >> "$OUT_JSON"
+            $ECHO '    "'$N11'": "'$f11'",' >> "$OUT_JSON"
+            $ECHO '    "'$N12'": "'$f12'",' >> "$OUT_JSON"
+            $ECHO '    "'$N13'": "'$f13'",' >> "$OUT_JSON"
+            $ECHO '    "'$N14'": "'$f14'",' >> "$OUT_JSON"
+            $ECHO '    "'$N15'": "'$f15'",' >> "$OUT_JSON"
+            $ECHO '    "'$N16'": "'$f16'",' >> "$OUT_JSON"
+            $ECHO '    "'$N17'": "'$f17'"' >> "$OUT_JSON"
+            $ECHO '}' >> "$OUT_JSON"
+        fi
+    done < "$SRC_CSV"
+}
+
+
 IRIS_DIR="iris"
 IRIS_DATA="iris.data"
 IRIS_URL_DATA="https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
@@ -336,7 +414,54 @@ stage_adult_dataset() {
 }
 
 
+ESD2020_DIR="early_stage_diabetes_2020"
+ESD2020_DATA="diabetes_data_upload.csv"
+ESD2020_URL_DATA="https://archive.ics.uci.edu/ml/machine-learning-databases/00529/diabetes_data_upload.csv"
+
+SRC_COLL_ESD2020="esd2020"
+# SRC_COLL_ESD2020="esd2020_225"
+# SRC_COLL_ESD2020="esd2020_450"
+# SRC_COLL_ESD2020="esd2020_900"
+# SRC_COLL_ESD2020="esd2020_1800"
+# SRC_COLL_ESD2020="esd2020_3600"
+# SRC_COLL_ESD2020="esd2020_7200"
+
+stage_esd2020_dataset() {
+    L_PATH="./$ESD2020_DIR/$ESD2020_DATA"
+    L_JSON="./$ESD2020_DIR/$ESD2020_DATA.json"
+    mkdir -p "./$ESD2020_DIR"
+
+    if [ ! -e "$L_PATH" ]
+    then
+        $CURL --output "$L_PATH" "$ESD2020_URL_DATA"
+        if [ $? -ne 0 ]
+        then
+            $ECHO "\nUnable to download : $ESD2020_URL\n\nExiting...\n"
+            exit
+        fi
+    fi
+
+    if [ ! -e "$L_JSON" ]
+    then
+        $ECHO "\nConverting early stage diabetes 2020 UCI dataset CSV to JSON for import...\n"
+        convert_esd2020_csv2json "$L_PATH" "$L_JSON" "Age" "Gender" "Polyuria" "Polydipsia" "sudden weight loss" "weakness" "Polyphagia" "Genital thrush" "visual blurring" "Itching" "Irritability" "delayed healing" "partial paresis" "muscle stiffness" "Alopecia" "Obesity" "class"
+    fi
+
+    if [ ! -e "$L_JSON" ]
+    then
+        $ECHO "\nUnable to covert to JSON : $L_PATH\n\nExiting...\n"
+        exit
+    else
+        $ECHO "\nIngesting: $UCIML_DB:$SRC_COLL_ESD2020"
+        $ECHO "\nPlease enter password when prompted...\n"
+        $MONGOIMPORT --type=json --uri="$REPL_DATA_SRC" --collection=$SRC_COLL_ESD2020 $L_JSON
+    fi
+
+}
+
+
 stage_iris_dataset
-stage_wine_dataset
+# stage_wine_dataset
 # stage_adult_dataset
+# stage_esd2020_dataset
 

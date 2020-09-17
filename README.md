@@ -162,14 +162,20 @@ This subdocument contains four MongoDB connection strings for accessing the Mong
 <a name="examples"></a>
 ## Examples
 
+### Sample Video
+
+* [Introduction to Ahnung Video](https://youtu.be/K_PklPgrFss)
+
 ### Sample Results
 
 You can find an example of the charts, statistics and ensemble construction results in the links below.  Note that the GitHub project is not running the prediction stage of Ahnung.  The prediction URLs will not work until you install and run Ahnung on your own datasets.
 
-* [Introduction to Ahnung Video](https://youtu.be/K_PklPgrFss)
-* [Ahnung Results on UCI Adult dataset](https://wbrianblevins.github.io/ahnung/examples/adult/index.html)
-* [Ahnung Results on UCI Wine dataset](https://wbrianblevins.github.io/ahnung/examples/wine/index.html)
-* [Ahnung Results on UCI Iris dataset](https://wbrianblevins.github.io/ahnung/examples/iris/index.html)
+| Dataset Name | Results | Dataset Source |
+| --- | --- | --- | --- |
+| Early Stage Diabetes Risk Prediction (UCI) | [Ahnung Results](https://wbrianblevins.github.io/ahnung/examples/early_stage_diabetes_risk_prediction/index.html) | [Early stage diabetes risk prediction dataset.](https://archive.ics.uci.edu/ml/datasets/Early+stage+diabetes+risk+prediction+dataset.) | 
+| Adult Income (UCI) | [Ahnung Results](https://wbrianblevins.github.io/ahnung/examples/adult/index.html) | [Adult Data Set](https://archive.ics.uci.edu/ml/datasets/adult) | 
+| Wine (UCI) | [Ahnung Results](https://wbrianblevins.github.io/ahnung/examples/wine/index.html) | [Wine Data Set](https://archive.ics.uci.edu/ml/datasets/wine) |
+| Iris (UCI) | [Ahnung Results](https://wbrianblevins.github.io/ahnung/examples/iris/index.html) | [Iris Data Set](https://archive.ics.uci.edu/ml/datasets/iris) |
 
 
 ### Sample JSON Configuration
