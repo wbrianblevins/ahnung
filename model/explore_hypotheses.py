@@ -356,13 +356,14 @@ class ExplorationStage(object):
                      include_preprocessors   = use_preproc,
                      exclude_preprocessors   = exc_preproc,
                      n_jobs                  = allowed_jobs,
-                     ensemble_size           = allowed_jobs,
                      seed                    = rand_seed,
-                     initial_configurations_via_metalearning = 0,
+                     ensemble_nbest          = 0.5,
                      resampling_strategy                     = 'cv-iterative-fit',
                      resampling_strategy_arguments           = strategy_args
                      )
  
+                     # ensemble_size           = allowed_jobs,
+                     # initial_configurations_via_metalearning = 0,
                      # metric                  = autosklearn.metrics.roc_auc
 
         attrNames = all_X.columns.values.tolist()
