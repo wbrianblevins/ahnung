@@ -4,8 +4,9 @@ Automated Machine Learning Pipeline for MongoDB Collections, written in Python a
 - [Requirements](#requirements)
 - [Install](#install)
 - [Usage](#usage)
-- [Examples](#examples) : [Ahnung Video](https://youtu.be/K_PklPgrFss) : [UCI Adult dataset](https://wbrianblevins.github.io/ahnung/examples/adult/index.html)
+- [Examples, Results, Video](#examples)
 - [References](#references)
+- [AutoML Papers](https://github.com/wbrianblevins/ahnung/tree/master/papers)
 
 ## Intro
 
@@ -168,7 +169,7 @@ This subdocument contains four MongoDB connection strings for accessing the Mong
 
 ### Sample Results
 
-You can find an example of the charts, statistics and ensemble construction results in the links below.  Note that the GitHub project is not running the prediction stage of Ahnung.  The prediction URLs will not work until you install and run Ahnung on your own datasets.
+You can find static examples of the charts, statistics and ensemble construction results in the links below.  Note that the GitHub project is not running the prediction stage of Ahnung.  The prediction URL for each result will not work until you install and run Ahnung on your own datasets.
 
 | Dataset Name | Results | Dataset Source |
 | --- | --- | --- |
