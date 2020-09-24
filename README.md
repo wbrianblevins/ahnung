@@ -12,7 +12,11 @@ Automated Machine Learning Pipeline for MongoDB Collections, written in Python a
 
 Ahnung allows data scientists and machine learning specialists to configure a generic, automated ML pipeline against data in any MongoDB collection.  The pipeline automatically evaluates, optimizes and visualizes the performance of multiple machine learning models, feature engineering options and hyperparameters.  By systematizing and automating these tedious and error-prone tasks, Ahnung accelerates the thorough exploration of machine learning approaches on new datasets.
 
-Ahnung uses documents from that collection as training instances and document attributes as machine learning features for supervised machine learning tasks.  Due to the dynamic schema nature of MongoDB collections, Ahnung performs a schema analysis to discover the names of the document attributes, their data types and frequencies.  The pipeline recognizes categorical and numeric features and provides median or mode substitution for missing values.
+The Ahnung pipeline generates an ensemble of machine learning models to accomplish the selected task.  The last stage of the pipeline provides a visualization of the ensemble similar to the one below.
+
+![Example Ensemble Components in PipelineProfiler](https://wbrianblevins.github.io/ahnung/examples/Ensemble_Components_Example_in_PipelineProfiler.png)
+
+Ahnung uses documents from the MongoDB collection as training instances (or observations).  Document attributes provide the features (or attributes) for supervised machine learning tasks.  Due to the dynamic schema nature of MongoDB collections, Ahnung performs a schema analysis to discover the names of the document attributes, their data types and frequencies.  The pipeline recognizes categorical and numeric features and provides median or mode substitution for missing values.
 
 You will provide Ahnung with MongoDB connection strings for the read-only, source database and one or more read-write databases used by the various stages to store metadata and machine learning models.  Additionally, you will specify the `target` attribute.   The ML pipeline will learn to predict the value of the `target` attribute from a given document containing the other attributes.  In order to implement this task, Ahnung will construct or fit an ensemble of machine learning models to the dataset in the source collection.  AutoSKLearn is used to accomplish many necessary tasks, including model selection and hyperparameter optimization.
 
