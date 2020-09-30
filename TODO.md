@@ -5,9 +5,17 @@
 ### Regression
 
 - Add support for regression tasks.  Requires global code review.  Many updates required, particularly in explore_hypotheses.py and serve_rest.py.
+    - Update the supported training metric types for regession tasks.
+    - Update `rest_serve.py` for appropriate regression visualizations.
+
 
 
 ### Feature Engineering
+
+- Investigate improvements in categorical label encoding.
+    - Is there a LabelEncoder that can handle unseen values that appear only after modelling is complete (in production)?
+    - How can classes with low information content (vs target) be collapsed into a single "other" label?  This approach seems to imply that `transform()` and `inverse_transform()` are not symmetric (not reversible).
+
 
 - Find or implement feature tranforms (feature engineering) for common datatypes that allow the discovery of common patterns.  Should these transforms be in Ahnung or possibly implemented as preprocessor stages in AutoSKLearn?  What sense should a known type carry into AutoSKLearn when such a preprocessor stage is used?
     - date-time: year
@@ -37,16 +45,33 @@
 
 ### AutoSKLearn Configuration
 
+- Improve handling for experiments with different settings.  Change the source collection for the `schema` stage to be the same for all estimators.  The `schema` and `cleanup` stages should only be executed a single time rather than for each estimator.  The idea is to allow the estimators to be used for experiments on the same dataset.
+    - Separate the name used for the original source collection from the name of the dataset.
+    - Use a global source collection name in `schema` and `cleanup`.
+    - Update `model` to read from the `cleanup` output with a different collection name.
+
 
 - Move the AutoSKLearn settings into estimator/vehicle configuration.  Needed to allow different settings per workload/vehicle/estimator.  With per-vehicle settings, a single run can evaluate multiple AutoSKLearn configurations against the same dataset/task.
     - CPUs, global time, per-model time [done]
     - use/exclude estimators
     - use/exclude preprocessors
+    - metric
+    - ensemble_size
+    - ensemble_nbest
+    - max_models_on_disc
 
 
-- Consider cross-validation with resampling_strategy='cv', resampling_strategy_arguments={'folds': 5} and automl.refit(X_all, y_all).  Make these configurable.
+
+- Consider cross-validation.
+    - With resampling_strategy='cv', resampling_strategy_arguments={'folds': 5} and automl.refit(X_all, y_all). [done]
+    -  Make these configurable.
+
 
 ### Visualize Estimator and Results
+
+- Evaluate SHAP game theoretic explanation of the final ensemble.
+    - [https://github.com/slundberg/shap](https://github.com/slundberg/shap)
+
 
 - Enhance the predict stage to provide an appropriate REST interface to estimator summary statistics, including most accurate ensemble components and random forest analysis summary.
     - estimator summary statistics [done]

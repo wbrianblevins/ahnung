@@ -131,6 +131,49 @@ class ExplorationStage(object):
     #
     #
     #
+    def getClassificationMetric(self, metric_string):
+
+        metricObj = autosklearn.metrics.accuracy
+
+        if self.aConfig.METRIC_ACCURACY.lower() == metric_string.lower():
+            metricObj = autosklearn.metrics.accuracy
+
+        if self.aConfig.METRIC_BAL_ACCURACY.lower() == metric_string.lower():
+            metricObj = autosklearn.metrics.balanced_accuracy
+
+        if self.aConfig.METRIC_F1_MACRO.lower() == metric_string.lower():
+            metricObj = autosklearn.metrics.f1_macro
+
+        if self.aConfig.METRIC_F1_MICRO.lower() == metric_string.lower():
+            metricObj = autosklearn.metrics.f1_micro
+
+        if self.aConfig.METRIC_ROC_AUC.lower() == metric_string.lower():
+            metricObj = autosklearn.metrics.roc_auc
+
+        if self.aConfig.METRIC_PRECISION_MACRO.lower() == metric_string.lower():
+            metricObj = autosklearn.metrics.precision_macro
+
+        if self.aConfig.METRIC_PRECISION_MICRO.lower() == metric_string.lower():
+            metricObj = autosklearn.metrics.precision_micro
+
+        if self.aConfig.METRIC_AVG_PRECISION.lower() == metric_string.lower():
+            metricObj = autosklearn.metrics.average_precision
+
+        if self.aConfig.METRIC_RECALL_MACRO.lower() == metric_string.lower():
+            metricObj = autosklearn.metrics.recall_macro
+
+        if self.aConfig.METRIC_RECALL_MICRO.lower() == metric_string.lower():
+            metricObj = autosklearn.metrics.recall_micro
+
+        if self.aConfig.METRIC_LOG_LOSS.lower() == metric_string.lower():
+            metricObj = autosklearn.metrics.log_loss
+
+        return metricObj
+
+
+    #
+    #
+    #
     def balanceSamples(self, X_train, y_train, estVehicle):
         
         target   = estVehicle.getEstimatorTarget()
@@ -249,7 +292,7 @@ class ExplorationStage(object):
         # Compute ROC curves for each target class/label.
         #
         if estVehicle.getIsClassification():
-            proba_y_hat = automl.predict_proba(np_x_test, batch_size=None, n_jobs=1)
+            proba_y_hat = automl.predict_proba(np_x_test, batch_size=None, n_jobs=allowed_jobs)
 
             fprDict         = {}
             tprDict         = {}
@@ -323,7 +366,20 @@ class ExplorationStage(object):
         max_time_global = estVehicle.getMaxGlobalTime()
         # per_run_time_limitint, optional (default=360)
         max_time_model = estVehicle.getMaxPerModelTime()
+
+        #
+        # Select the ensemble configuration.
+        #
+        ensemble_size      = estVehicle.getEnsembleSize()
+        ensemble_nbest     = estVehicle.getEnsembleNBest()
+        max_models_on_disc = estVehicle.getMaxModelsOnDisc()
         
+        #
+        # Select the training metric (loss function).
+        #
+        metric_string      = estVehicle.getMetric()
+        metric_object      = self.getClassificationMetric(metric_string)
+
         print("Selected estimators      : ", use_est)
         print("Deselected estimators    : ", exc_est)
         print("Selected preprocessors   : ", use_preproc)
@@ -331,6 +387,10 @@ class ExplorationStage(object):
         print("Max time global (sec)    : ", max_time_global)
         print("Max time per model (sec) : ", max_time_model)
         print("CPUs Used                : ", allowed_jobs)
+        print("Max ensemble size        : ", ensemble_size)
+        print("Best models              : ", ensemble_nbest)
+        print("Max models on disc       : ", max_models_on_disc)
+        print("Training metric          : ", metric_string)
         
         print("Using " + estName + " dataset.")
         
@@ -357,14 +417,15 @@ class ExplorationStage(object):
                      exclude_preprocessors   = exc_preproc,
                      n_jobs                  = allowed_jobs,
                      seed                    = rand_seed,
-                     ensemble_nbest          = 0.5,
-                     resampling_strategy                     = 'cv-iterative-fit',
-                     resampling_strategy_arguments           = strategy_args
+                     ensemble_size           = ensemble_size,
+                     ensemble_nbest          = ensemble_nbest,
+                     max_models_on_disc      = max_models_on_disc,
+                     resampling_strategy            = 'cv-iterative-fit',
+                     resampling_strategy_arguments  = strategy_args,
+                     metric                  = metric_object
                      )
  
-                     # ensemble_size           = allowed_jobs,
                      # initial_configurations_via_metalearning = 0,
-                     # metric                  = autosklearn.metrics.roc_auc
 
         attrNames = all_X.columns.values.tolist()
         senseList = self.generateSenseList(attrNames, estVehicle.getAttrSenses())

@@ -169,6 +169,62 @@ class AhnungVehicle(object):
         return max_permodel
 
 
+    #
+    #
+    #
+    def getEnsembleSize(self):
+
+        c_ensemble_size = self.aConfig.getEnsembleSize()
+        estName = self.getEstimatorName()
+        ensemble_size = self.aConfig.getEstimatorInteger(estName, self.aConfig.ENSEMBLE_SIZE, c_ensemble_size)
+        
+        return ensemble_size
+
+
+    #
+    #
+    #
+    def getEnsembleNBest(self):
+
+        c_ensemble_nbest = self.aConfig.getEnsembleNBest()
+        estName = self.getEstimatorName()
+        ensemble_nbest_int = self.aConfig.getEstimatorInteger(estName, self.aConfig.ENSEMBLE_NBEST, -1)
+        if 0 < ensemble_nbest_int:
+            ensemble_nbest = ensemble_nbest_int
+        else:
+            ensemble_nbest_float = self.aConfig.getEstimatorFloat(estName, self.aConfig.ENSEMBLE_NBEST, -1.0)
+            if 0.0 < ensemble_nbest_float:
+                ensemble_nbest = ensemble_nbest_float
+            else:
+                ensemble_nbest = c_ensemble_nbest
+        
+        return ensemble_nbest
+
+
+    #
+    #
+    #
+    def getMaxModelsOnDisc(self):
+
+        c_max_models_on_disc = self.aConfig.getMaxModelsOnDisc()
+        estName = self.getEstimatorName()
+        max_models_on_disc = self.aConfig.getEstimatorInteger(estName, self.aConfig.MAX_MODELS_ON_DISC, c_max_models_on_disc)
+        
+        return max_models_on_disc
+
+
+    #
+    #
+    #
+    def getMetric(self):
+
+        c_metric = self.aConfig.getMetric()
+        estName = self.getEstimatorName()
+        metric = self.aConfig.getEstimatorString(estName, self.aConfig.METRIC, c_metric)
+        
+        return metric
+
+
 
     #
     #

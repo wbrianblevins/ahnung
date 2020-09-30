@@ -535,6 +535,11 @@ class PipelineProfilerEndpoint(flask.views.MethodView):
             automl = self.vehicle.getAutoSklearnRegressor()
 
         if None != automl:
+            # mod_list_s = automl.show_models()
+            # print('\n\nModels:\n' + str(mod_list_s))
+            # mod_list_w = automl.get_models_with_weights()
+            # print('\n\nModels and weights:\n' + str(mod_list_w))
+
             profiler_pipeline = PipelineProfiler.import_autosklearn(automl)
             # PipelineProfiler.plot_pipeline_matrix(profiler_data)
 

@@ -27,6 +27,10 @@ class AhnungConfig(object):
     ALLOWED_CPUS        = 'allowed_cpus'
     MAX_GLOBAL_TIME     = 'max_global_time'
     MAX_PERMODEL_TIME   = 'max_permodel_time'
+    ENSEMBLE_SIZE       = 'ensemble_size'
+    ENSEMBLE_NBEST      = 'ensemble_nbest'
+    MAX_MODELS_ON_DISC  = 'max_models_on_disc'
+    METRIC              = 'metric'
 
     SCHEMA_PROPERTIES   = 'schema_properties'
     AT_MIN_PRESENT      = 'attr_type_min_present'
@@ -53,12 +57,28 @@ class AhnungConfig(object):
     # RESULTS_URI         = 'results_uri'
     CREDS_PLACEHOLDER   = 'usercredsplaceholder'
 
-    DEF_RANDOM_SEED     = 10001
-    DEF_ALLOWED_CPUS    = 1
-    DEF_MAX_GLOBAL_TIME = 600
-    DEF_PERMODEL_TIME   = 60
-    DEF_SERV_HOSTNAME   = 'localhost'
-    DEF_SERV_PORTNUM    = 8088
+    METRIC_ACCURACY         = 'accuracy'
+    METRIC_BAL_ACCURACY     = 'balanced_accuracy'
+    METRIC_F1_MACRO         = 'f1_macro'
+    METRIC_F1_MICRO         = 'f1_micro'
+    METRIC_ROC_AUC          = 'roc_auc'
+    METRIC_PRECISION_MACRO  = 'precision_macro'
+    METRIC_PRECISION_MICRO  = 'precision_micro'
+    METRIC_AVG_PRECISION    = 'average_precision'
+    METRIC_RECALL_MACRO     = 'recall_macro'
+    METRIC_RECALL_MICRO     = 'recall_micro'
+    METRIC_LOG_LOSS         = 'log_loss'
+
+    DEF_RANDOM_SEED         = 10001
+    DEF_ALLOWED_CPUS        = 1
+    DEF_MAX_GLOBAL_TIME     = 600
+    DEF_PERMODEL_TIME       = 60
+    DEF_ENSEMBLE_SIZE       = 50
+    DEF_ENSEMBLE_NBEST      = 0.2
+    DEF_MAX_MODELS_ON_DISC  = 50
+    DEF_METRIC              = METRIC_ACCURACY
+    DEF_SERV_HOSTNAME       = 'localhost'
+    DEF_SERV_PORTNUM        = 8088
 
     #
     #
@@ -301,8 +321,41 @@ class AhnungConfig(object):
         if None != estDict:
             intStr = estDict.get(integerName)
         if None != intStr:
-            intResult = int(intStr)
+            try:
+                intResult = int(intStr)
+            except (ValueError, TypeError) as eX:
+                pass
         return intResult
+
+
+    #
+    #
+    #
+    def getEstimatorFloat(self, estName, integerName, defaultVal=0.0):
+        floatResult = defaultVal
+        estDict = self.getEstimatorByName(estName)
+        intStr = None
+        if None != estDict:
+            floatStr = estDict.get(integerName)
+        if None != floatStr:
+            try:
+                floatResult = float(floatStr)
+            except (ValueError, TypeError) as eX:
+                pass
+        return floatResult
+
+
+    #
+    #
+    #
+    def getEstimatorString(self, estName, stringName, defaultVal=''):
+        stringVal = defaultVal
+        estDict = self.getEstimatorByName(estName)
+        if None != estDict:
+            stringLookup = estDict.get(stringName)
+            if None != stringLookup:
+                stringVal = stringLookup
+        return stringVal
 
 
     #
@@ -370,6 +423,89 @@ class AhnungConfig(object):
                 max_permodel = int(max_permodel_str)
 
         return max_permodel
+
+
+
+    #
+    #
+    #
+    def getEnsembleSize(self):
+
+        ensemble_size = self.DEF_ENSEMBLE_SIZE
+        
+        gProp_dict = self.getGlobalPropertiesDict()
+        if None != gProp_dict:
+            ensemble_size_str = gProp_dict.get(self.ENSEMBLE_SIZE)
+            if None != ensemble_size_str:
+                ensemble_size = int(ensemble_size_str)
+
+        return ensemble_size
+
+
+
+    #
+    #
+    #
+    def getEnsembleNBest(self):
+
+        ensemble_nbest = self.DEF_ENSEMBLE_NBEST
+        
+        gProp_dict = self.getGlobalPropertiesDict()
+        if None != gProp_dict:
+            ensemble_nbest_str = gProp_dict.get(self.ENSEMBLE_NBEST)
+            if None != ensemble_nbest_str:
+                float_nbest = None
+                int_nbest   = None
+                # Check for both a floating point and integer value.
+                try:
+                    float_nbest = float(ensemble_nbest_str)
+                except (ValueError, TypeError) as eX:
+                    pass
+                try:
+                    int_nbest = int(ensemble_nbest_str)
+                except (ValueError, TypeError) as eX:
+                    pass
+                # Prefer the integer value if available.
+                if None != int_nbest:
+                    ensemble_nbest = int_nbest
+                else:
+                    if None != float_nbest:
+                        ensemble_nbest = float_nbest
+
+        return ensemble_nbest
+
+
+
+    #
+    #
+    #
+    def getMaxModelsOnDisc(self):
+
+        max_models_on_disc = self.DEF_MAX_MODELS_ON_DISC
+        
+        gProp_dict = self.getGlobalPropertiesDict()
+        if None != gProp_dict:
+            max_modesl_on_disc_str = gProp_dict.get(self.MAX_MODELS_ON_DISC)
+            if None != max_modesl_on_disc_str:
+                max_models_on_disc = int(max_modesl_on_disc_str)
+
+        return max_models_on_disc
+
+
+    #
+    #
+    #
+    def getMetric(self):
+
+        metric = self.DEF_METRIC
+        
+        gServ_dict = self.getServicePropertiesDict()
+        if None != gServ_dict:
+            metric_str = gServ_dict.get(self.METRIC)
+            if None != metric_str:
+                metric = metric_str
+
+        return metric
 
 
 
